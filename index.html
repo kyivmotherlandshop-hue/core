@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Elemental — Підбір запчастин</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'media' }
+        
+        // Функция поиска (переход на страницу товара по артикулу)
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                const query = document.getElementById('search-input').value.trim().toLowerCase();
+                if (query) { window.location.href = `/products/${query}.html`; }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Стили из вашей рабочей основы */
+        body { background: #000000; color: #f5f5f7; }
+        input { background: #ffffff !important; color: #000000 !important; border-color: #e2e8f0 !important; }
+        .bg-white\/50 { background: rgba(13, 13, 13, 0.9) !important; border-color: #1a1a1a !important; backdrop-filter: blur(20px); }
+        .nav-btn { background: #0d0d0d !important; color: white !important; border-color: #1a1a1a !important; }
+    </style>
+</head>
+<body class="min-h-screen bg-black text-white transition-colors duration-300">
+
+    <header class="border-b border-zinc-800 backdrop-blur-md sticky top-0 bg-black/70 z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between gap-8">
+            <a href="index.html" class="flex items-center gap-2">
+                <span class="font-semibold uppercase font-mono tracking-tight text-lg">Core Elemental</span>
+            </a>
+            
+            <input id="search-input" onkeydown="handleSearch(event)" type="text" 
+                   placeholder="Пошук за артикулом..." 
+                   class="px-4 py-2 rounded-full text-sm w-full max-w-sm border outline-none">
+            
+            <nav class="flex gap-6 text-sm font-medium">
+                <a href="index.html" class="hover:text-zinc-400">Головна</a>
+                <a href="бренды.html" class="hover:text-zinc-400">Бренди</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-6 py-12">
+        <div class="grid md:grid-cols-2 gap-12">
+            <div id="placeholder-view" class="aspect-square bg-zinc-900 rounded-3xl flex items-center justify-center text-zinc-600">
+                Немає фото
+            </div>
+            <div id="photo-view" class="hidden">
+                <img id="warehouse-img" src="" class="w-full rounded-3xl opacity-0 transition-opacity duration-500" alt="Фото товару">
+            </div>
+            
+            <div>
+                <h1 id="product-title" class="text-3xl font-bold mb-4">Назва товару</h1>
+                <p id="sku-marker" class="text-zinc-500 font-mono mb-6">Art: P552952</p>
+                <button class="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-zinc-200 transition-colors">
+                    Замовити у WhatsApp
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-zinc-900 px-6 py-8">
+        <div class="max-w-6xl mx-auto flex justify-between items-center text-xs text-zinc-500 font-mono">
+            <div>&copy; 2026 Core Elemental.</div>
+            <div class="uppercase tracking-widest text-[10px]">Engineering Excellence</div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const skuText = document.getElementById("sku-marker").innerText.replace("Art:", "").trim().toLowerCase();
+            const realImagePath = `images/parts/${skuText}.webp`; 
+
+            const imgTester = new Image();
+            imgTester.src = realImagePath;
+            imgTester.onload = function() {
+                document.getElementById("placeholder-view").classList.add("hidden");
+                const photoView = document.getElementById("photo-view");
+                photoView.classList.remove("hidden");
+                const warehouseImg = document.getElementById("warehouse-img");
+                warehouseImg.src = realImagePath;
+                setTimeout(() => { warehouseImg.classList.remove("opacity-0"); }, 50);
+            };
+        });
+    </script>
+</body>
+</html>
